@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BLOGit - <%- locals?.title %></title>
+    <title>BLOGit - <%- locals?.blog.title %></title>
     <%- include("./partials/head") %>
 </head>
 <body>
@@ -19,7 +19,7 @@
 
             <!-- Blog Section -->
             <div class="w-75 card mb-6">
-                <img src="/uploads/<%- blog.coverImgURL %>" cl  ass="card-img-top"
+                <img src="<%- blog.coverImgURL %>" cl  ass="card-img-top"
                     style="height: 400px; object-fit: contain; object-position: center;"
                     alt="Cover Image">
                 <div class="card-body">
@@ -27,7 +27,7 @@
                         <h4 class="title mb-1 align-self-end"><%- blog.title %></h4>
                         <div class="author-avatar d-flex gap-2 flex-wrap">
                             <span class="avatar" style="--bs-avatar-size: 3rem;">
-                                <img class="avatar-img" src="/uploads/<%- blog.author.profileImgURL %>" alt="avatar img">
+                                <img class="avatar-img" src="<%- blog.author.profileImgURL %>" alt="avatar img">
                                 <% if (locals.user) { %>
                                     <% if (user._id.toString() === blog.author._id.toString()) { %>
                                         <span class="avatar-status status-online" role="img" aria-label="Online"></span>
@@ -59,15 +59,24 @@
 
                     <!-- Single Comment Card -->
                     <% locals?.comments?.forEach(comment => { %>
-                        <div class="comment-card d-flex flex-column gap-2 mb-3">
-                            <div>
+                        <div class="comment-card d-flex flex-column gap-2 mb-4 border-bottom">
+                            <div class="d-flex justify-content-between">
                                 <div>
-                                    <span class="avatar" style="--bs-avatar-size: 3rem;">
+                                    <span class="avatar" style="--bs-avatar-size: 2rem;">
                                         <img class="avatar-img" src="<%= comment.createdBy.profileImgURL %>" alt="avatar img">
                                     </span>
                                     <span><%= comment.createdBy.fullName %></span>
                                 </div>
-                                <span class="delete-icon"></span>
+                                <div class="d-flex align-items-end gap-4">
+                                    <small class="h-fit fg-secondary fs-sm"><%= getReadableFullDate(comment.createdAt) %></small>
+                                    <% if (locals.user) { %>
+                                        <% if (user._id.toString() === comment.createdBy._id.toString()) { %>
+                                            <span class="h-fit delete-icon hover-lift align-self-center" style="cursor: pointer;">
+                                                <a href="/blog/comment/delete/<%= comment._id %>"><img style="width: 25px;" src="/images/trash-white.png" alt="delete icon"></a>
+                                            </span>
+                                        <% } %> 
+                                    <% } %> 
+                                </div>
                             </div>
                             <div class="mx-5"><%= comment.content %></div>
                         </div>
@@ -76,6 +85,18 @@
             </div>
         </section>
     </main>
+
+    <!-- 
+    Comment {
+        _id: new ObjectId('6ae0fe7f7f0af4933eca4fba'),
+        content: 'Great intro',
+        blogId: new ObjectId('6ade6550f16f4ad5731375aa'),
+        createdBy: new ObjectId('6adcd3448ab7410dd249716c'),
+        createdAt: 2026-10-27T19:41:51.174Z,
+        updatedAt: 2026-10-27T19:41:51.174Z,
+        __v: 0
+    }
+    -->
 
     <%- include("./partials/scripts") %>
 </body>

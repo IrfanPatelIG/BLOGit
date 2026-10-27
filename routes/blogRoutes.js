@@ -27,7 +27,6 @@ router.get("/add-new", (req, res) => {
 
 router.post("/add-new", upload.single("coverImg"), async (req, res) => {
     const { title, descriptionBody, coverImg } = req.body
-    console.log("file:", req?.file.filename)
 
     await Blog.create({
         title,
@@ -47,9 +46,17 @@ router.post("/comment/:blogId", async (req, res) => {
         blogId: req.params.blogId,
         createdBy: req.user._id
     })
-    console.log("Comment Added", comment)
 
-    return res.redirect(`/blog/${req.params.blogId}`)
+    return res.redirect(`/view/blog/${req.params.blogId}`)
+})
+
+// Delete a Comment
+router.get("/comment/delete/:commentId", async (req, res) => {
+    const commentId = req?.params.commentId
+    
+    const comment = await Comment.findOneAndDelete({_id: commentId})
+    
+    res.redirect(`/view/blog/${comment.blogId}`)
 })
 
 module.exports = router

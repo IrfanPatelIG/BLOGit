@@ -32,14 +32,14 @@
             <!-- Populating BLogs Card -->
             <% blogs.forEach(blog => { %>
                 <div class="card shadow-opacity-50 shadow-primary bg-body rounded hover-lift" style="width: 320px; height: 380px;">
-                    <img src="/uploads/<%- blog.coverImgURL %>" class="card-img-top img-thumbnail" 
+                    <img src="<%- blog.coverImgURL %>" class="card-img-top img-thumbnail" 
                         alt="Cover Image"
                         style="height: 65%; object-fit: cover; object-position: center;">
                     <div class="card-body">
                         <h4 class="card-title"><%= blog.title %></h4>
-                        <p class="card-text fg-secondary fs-md">Author - <%- blog.author.fullName %></p>
+                        <p class="card-text fg-secondary fs-md">Author - <span class="fs-md fst-italic"><%- blog.author.fullName %></span></p>
                         <div class="d-flex justify-content-between">
-                            <a href="/blog/<%= blog._id %>" class="btn-solid theme-primary">View Blog</a>
+                            <a href="/view/blog/<%= blog._id %>" class="btn-solid theme-primary">View Blog</a>
                             <span class="align-self-end fg-secondary fs-sm"><%= getReadableFullDate(blog.createdAt) %></span>
                         </div>
                     </div>

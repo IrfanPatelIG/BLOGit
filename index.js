@@ -51,13 +51,11 @@ app.get("/", async (req, res) => {
 app.use("/user", userRouter)
 
 app.use("/blog", restrictToSignedInUsersOnly, blogRouter)
-app.get("/blog/:blogId", async (req, res) => {
+app.get("/view/blog/:blogId", async (req, res) => {
     const blogId = req?.params.blogId
 
     const blog = await Blog.findOne({_id: blogId}).populate("author")
-    console.log("Blog", blog)
     const comments = await Comment.find({blogId: blog.id}).populate("createdBy")
-    console.log("comments", comments)
 
     res.render("blogPage", {
         user: req?.user,
