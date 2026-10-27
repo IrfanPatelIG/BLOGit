@@ -27,7 +27,7 @@
                         <h4 class="title mb-1 align-self-end"><%- blog.title %></h4>
                         <div class="author-avatar d-flex gap-2 flex-wrap">
                             <span class="avatar" style="--bs-avatar-size: 3rem;">
-                                <img class="avatar-img" src="<%- blog.author.profileImgURL %>" alt="avatar img">
+                                <img class="avatar-img" src="/uploads/<%- blog.author.profileImgURL %>" alt="avatar img">
                                 <% if (locals.user) { %>
                                     <% if (user._id.toString() === blog.author._id.toString()) { %>
                                         <span class="avatar-status status-online" role="img" aria-label="Online"></span>

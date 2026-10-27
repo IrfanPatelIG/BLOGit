@@ -8,16 +8,18 @@ const router = express.Router()
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, path.resolve(`/public/uploads`))
+        cb(null, `./public/uploads`)
     },
     filename: function (req, file, cb) {
-        cb(null, path.resolve(`${Date.now()}-${file.originalname}`))
+        const uploadFileName = `${Date.now()}-${file.originalname}`
+        cb(null, uploadFileName)
     }
 })
 const upload = multer({storage: storage})
 
 router.get("/add-new", (req, res) => {
     res.render("addBlogPage", {
+        user: req?.user,
         title: req?.query?.title
     })
 })
@@ -25,6 +27,7 @@ router.get("/add-new", (req, res) => {
 
 router.post("/add-new", upload.single("coverImg"), async (req, res) => {
     const { title, descriptionBody, coverImg } = req.body
+    console.log("file:", req?.file.filename)
 
     await Blog.create({
         title,
