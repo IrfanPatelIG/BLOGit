@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLOGit - SignIn</title>
+    <%- include("./partials/head") %>
+</head>
+<body>
+    <%- include("./partials/navBar", {error: locals?.error}) %>
+
+    <main class="form-container container mt-4">
+        <h1 class="w-fit mt-4 mx-auto">SignIn</h1>
+        <form action="/user/signin" method="POST"
+            style="width: 300px; margin-inline: auto; margin-top: 80px; gap: 12px;">
+            <div class="mb-3">
+                <label for="inputEmail" class="form-label">Email address</label>
+                <input type="email" name="email" class="form-control" id="inputEmail" required aria-describedby="emailHelp">
+                <div id="emailHelp" class="form-text">We’ll never share your email with anyone else.</div>
+            </div>
+            <div class="mb-3">
+                <label for="inputPassword" class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" id="inputPassword" required>
+            </div>
+            <div class="mb-3 form-field">
+                <!-- <input type="checkbox" id="checkBox" class="check"> -->
+                <label for="checkBox">Don't have an account? <a href="/user/signup">SingUp</a></label>
+            </div>
+            <button type="submit" class="btn-solid theme-primary">SignIn</button>
+        </form>
+    </main>
+
+    <%- include("./partials/scripts") %>
+</body>
+</html>
