@@ -7,7 +7,7 @@
     <%- include("./partials/head") %>
 </head>
 <body>
-    <%- include("./partials/navBar", {error: locals?.error}) %>
+    <%- include("./partials/navBar") %>
 
     <main class="form-container container mt-4">
         <h1 class="w-fit mt-4 mx-auto">SignIn</h1>
@@ -22,7 +22,11 @@
                 <label for="inputPassword" class="form-label">Password</label>
                 <input type="password" name="password" class="form-control" id="inputPassword" required>
             </div>
-            <div class="mb-3 form-field">
+            <div class="form-field mt-3">
+                <input type="checkbox" id="showPassToggle" class="check" onclick="showPasswordToggle()" />
+                <label for="showPassToggle">Show Password</label>
+            </div>
+            <div class="my-3 form-field">
                 <!-- <input type="checkbox" id="checkBox" class="check"> -->
                 <label for="checkBox">Don't have an account? <a href="/user/signup">SingUp</a></label>
             </div>

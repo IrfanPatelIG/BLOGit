@@ -1,6 +1,6 @@
-<nav class="navbar sm:navbar-expand bg-1 fg-2">
+<nav class="navbar sm:navbar-expand bg-1 fg-2" style="position: sticky; top: 0; z-index: 100;">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand fs-xl" href="/">BLOGit</a>
     <button class="btn-icon navbar-toggler" type="button" data-bs-toggle="drawer" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon" aria-hidden="true"></span>
     </button>
@@ -11,12 +11,29 @@
       </div>
       <div class="drawer-body">
         <div class="nav nav-pills navbar-nav">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-          <a class="nav-link" href="#">Add Blog</a>
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
+          <% if (locals.user) { %>
+            <a class="nav-link" href="#">Add Blog</a>
+          <% } %>
           <a class="nav-link" href="#">About</a>
           <!-- <a class="nav-link disabled" aria-disabled="true">Disabled</a> -->
         </div>
-        <button type="button" class="btn-solid theme-primary">Primary</button>
+        
+        <% if (locals.user) { %>
+              <button class="btn-solid theme-primary" type="button" data-bs-toggle="menu" aria-expanded="false">
+                <%- user.fullName.split(" ")[0] %>
+              </button>
+              <div class="menu">
+                <a class="menu-item" href="#">Profile</a>
+                <a class="menu-item theme-danger" href="/user/logout">Logout</a>
+              </div>
+        <% } else { %>
+              <% if (locals.currentPath === "/user/signup" || locals.currentPath === "/" || locals.currentPath === "/blog/add-new") { %>
+                    <a role="button" href="/user/signin" class="btn-solid theme-primary">Go to SignIn</a>
+              <% } else if (locals.currentPath === "/user/signin") { %>
+                    <a role="button" href="/user/signup" class="btn-solid theme-primary">Go to SignUp</a>
+              <% } %>
+        <% } %>
       </div>
     </dialog>
   </div>

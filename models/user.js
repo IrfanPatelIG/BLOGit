@@ -49,14 +49,15 @@ userSchema.static("matchUserAndGenerateToken", async function (email, password) 
         throw new Error("Email is Invalid!");
     
     const salt = user.salt
-    const hashPassword = randomBytes("sha256", salt)
+    console.log(user)
+    const hashPassword = createHmac("sha256", salt)
         .update(password)
         .digest("hex")
 
     if (hashPassword !== user.password)
         throw new Error("Inccorect Password!")
 
-    const token = await createTokenForUser(user)
+    const token = createTokenForUser(user)
     return token
 })
 

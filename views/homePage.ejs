@@ -8,7 +8,45 @@
 </head>
 <body>
     <%- include("./partials/navBar") %>
-    
+    <main class="container pt-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap">
+            <h1>Welcome, Home
+                <% if (locals.user) { %>
+                    <span>- <%= user.fullName.split(" ")[0] %></span>
+                <% } else { %>
+                    <span class="fs-xl">- Please <a href="/user/signin" class="theme-warning">SignIn</a></span> 
+                    <span class="fs-xl">to ad new Blogs</span>
+                <% } %>
+            </h1>
+            <% if (locals.blogs) { %>
+                <div class="kpi-container mt-4">
+                    <span class="alert theme-accent w-fit">Total Blogs: <%- blogs.length %></span>
+                </div>
+            <% } %>
+        </div>
+    </main>
+
+    <!-- Blogs listing section -->
+    <% if (locals.blogs) { %>
+        <section class="container blogs-container mt-8 mb-12 d-flex flex-wrap gap-6 justify-content-center">
+            <!-- Populating BLogs Card -->
+            <% blogs.forEach(blog => { %>
+                <div class="card shadow-opacity-50 shadow-primary bg-body rounded hover-lift" style="width: 320px; height: 380px;">
+                    <img src="/uploads/<%- blog.coverImgURL %>" class="card-img-top img-thumbnail" 
+                        alt="Cover Image"
+                        style="height: 65%; object-fit: cover; object-position: center;">
+                    <div class="card-body">
+                        <h4 class="card-title"><%= blog.title %></h4>
+                        <p class="card-text fg-secondary fs-md">Author - <%- blog.author.fullName %></p>
+                        <div class="d-flex justify-content-between">
+                            <a href="/blog/<%= blog._id %>" class="btn-solid theme-primary">View Blog</a>
+                            <span class="align-self-end fg-secondary fs-sm"><%= getReadableFullDate(blog.createdAt) %></span>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </section>
+    <% } %>
     <%- include("./partials/scripts") %>
 </body>
 </html>

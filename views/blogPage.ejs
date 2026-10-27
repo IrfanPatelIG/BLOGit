@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLOGit - <%- locals?.title %></title>
+    <%- include("./partials/head") %>
+</head>
+<body>
+    <%- include("./partials/navBar") %>
+
+    <main class="container">
+        <section class="mt-4 d-flex gap-4 justify-content-center flex-wrap">
+            <a href="/">
+                <button type="button" class="h-fit theme-primary btn-solid btn-styled">
+                    Go Back
+                </button>    
+            </a>
+
+            <!-- Blog Section -->
+            <div class="w-75 card mb-6">
+                <img src="/uploads/<%- blog.coverImgURL %>" cl  ass="card-img-top"
+                    style="height: 400px; object-fit: contain; object-position: center;"
+                    alt="Cover Image">
+                <div class="card-body">
+                    <div class="card-title mb-3 d-flex gap-2 justify-content-between flex-wrap">
+                        <h4 class="title mb-1 align-self-end"><%- blog.title %></h4>
+                        <div class="author-avatar d-flex gap-2 flex-wrap">
+                            <span class="avatar" style="--bs-avatar-size: 3rem;">
+                                <img class="avatar-img" src="<%- blog.author.profileImgURL %>" alt="avatar img">
+                                <% if (locals.user) { %>
+                                    <% if (user._id.toString() === blog.author._id.toString()) { %>
+                                        <span class="avatar-status status-online" role="img" aria-label="Online"></span>
+                                    <% } %>
+                                <% }%>
+                            </span>
+                            <span class="author mb-1 fg-secondary fs-md fst-italic align-self-end">
+                                <%- blog?.author?.fullName %>
+                            </span>
+                        </div>
+                    </div>
+                    <pre class="card-text fg-white px-2" style="white-space: pre-wrap; overflow-wrap: anywhere;"><%- blog.description %></pre>
+                    <p class="card-date mt-3"><small class="fg-2">Uploaded - <%= getReadableFullDate(blog.createdAt) %></small></p> 
+                </div>
+
+                <!-- Comment Section -->
+                <section class="mt-4 mx-4">
+                    <h2 class="mb-5">Comments (<%- locals.comments? comments.length : "0" %>)</h2>
+                    
+                    <% if (locals.user) { %> 
+                        <!-- Commnet form -->
+                        <form action="/blog/comment/<%= blog._id %>" method="POST">
+                             <div class="mb-3">
+                                <input type="text" name="content" class="form-control" placeholder="Entet your Comment" required>
+                            </div>
+                            <button type="submit" class="btn-solid theme-primary mb-6">Comment</button>
+                        </form>
+                    <% } %>   
+
+                    <!-- Single Comment Card -->
+                    <% locals?.comments?.forEach(comment => { %>
+                        <div class="comment-card d-flex flex-column gap-2 mb-3">
+                            <div>
+                                <div>
+                                    <span class="avatar" style="--bs-avatar-size: 3rem;">
+                                        <img class="avatar-img" src="<%= comment.createdBy.profileImgURL %>" alt="avatar img">
+                                    </span>
+                                    <span><%= comment.createdBy.fullName %></span>
+                                </div>
+                                <span class="delete-icon"></span>
+                            </div>
+                            <div class="mx-5"><%= comment.content %></div>
+                        </div>
+                    <% }) %>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <%- include("./partials/scripts") %>
+</body>
+</html>

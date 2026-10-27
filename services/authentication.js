@@ -3,7 +3,7 @@ const JWT = require("jsonwebtoken")
 const config = require("../config")
 const secret = config.jwt_secret
 
-async function createTokenForUser(user) {
+function createTokenForUser(user) {
     const userPayload = {
         _id: user._id,
         fullName: user.fullName,
@@ -15,7 +15,7 @@ async function createTokenForUser(user) {
     return token
 }
 
-async function validateToken(token) {
+function validateToken(token) {
     const user = JWT.verify(token, secret)
     return user
 }

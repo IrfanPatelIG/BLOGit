@@ -24,9 +24,20 @@
             </div>
             <div class="mb-3">
                 <label for="inputPassword" class="form-label">Password</label>
-                <input type="password" name="password" class="form-control" id="inputPassword" required>
+                <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Enter password" required>
+                <div class="strength" data-bs-strength>
+                    <div class="strength-segment"></div>
+                    <div class="strength-segment"></div>
+                    <div class="strength-segment"></div>
+                    <div class="strength-segment"></div>
+                </div>
+                <span class="strength-text"></span>
             </div>
-            <div class="mb-3 form-field">
+            <div class="form-field mt-3">
+                <input type="checkbox" id="showPassToggle" class="check" onclick="showPasswordToggle()" />
+                <label for="showPassToggle">Show Password</label>
+            </div>
+            <div class="my-3 form-field">
                 <!-- <input type="checkbox" id="checkBox" class="check"> -->
                 <label for="checkBox">Already have an account? <a href="/user/signin">SingIn</a></label>
             </div>
