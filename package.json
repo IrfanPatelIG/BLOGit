@@ -2,9 +2,10 @@
   "name": "blogit",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "dev": "nodemon index.js"
+    "Start" : "node app.js",
+    "dev": "nodemon app.js"
   },
   "keywords": [],
   "author": "",
