@@ -10,20 +10,24 @@
     <%- include("./partials/navBar", {error: locals?.error}) %>
 
     <main class="form-container container mt-4" >
-        <h1 class="w-fit mt-4 mx-auto">SignUp</h1>
+        <h1 class="w-fit mx-auto">SignUp</h1>
         <form action="/user/signup" method="POST"
             style="width: 300px; margin-inline: auto; margin-top: 80px; gap: 12px;"> 
             <div class="mb-3">
-                <label for="inputFullName" class="form-label">Full Name</label>
+                <label for="inputFullName" class="form-label">Full Name <span style="color: red;">*</span></label>
                 <input type="text" name="fullName" class="form-control" id="inputFullName" required>
             </div>
+            <div class="form-field mb-3">
+                <label for="profileImgURL" class="form-label badge badge-subtle theme-primary">Profile Image</label>
+                <input type="file" name="profileImgURL" class="form-control" id="profileImgURL">
+            </div>
             <div class="mb-3">
-                <label for="inputEmail" class="form-label">Email address</label>
+                <label for="inputEmail" class="form-label">Email address <span style="color: red;">*</span></label>
                 <input type="email" name="email" class="form-control" id="inputEmail" required aria-describedby="emailHelp">
                 <div id="emailHelp" class="form-text">We’ll never share your email with anyone else.</div>
             </div>
             <div class="mb-3">
-                <label for="inputPassword" class="form-label">Password</label>
+                <label for="inputPassword" class="form-label">Password <span style="color: red;">*</span></label>
                 <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Enter password" required>
                 <div class="strength" data-bs-strength>
                     <div class="strength-segment"></div>
