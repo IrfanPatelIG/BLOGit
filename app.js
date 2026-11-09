@@ -48,6 +48,10 @@ app.get("/", async (req, res) => {
     })
 })
 
+app.get("/about", (req, res) => {
+    res.render("aboutPage", {user: req?.user})
+})
+
 app.use("/user", userRouter)
 
 app.use("/blog", restrictToSignedInUsersOnly, blogRouter)

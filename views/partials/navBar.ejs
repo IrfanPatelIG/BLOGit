@@ -9,29 +9,29 @@
         <h5 class="drawer-title" id="navbarNavAltMarkupLabel">Menu</h5>
         <button type="button" class="btn-close" data-bs-dismiss="drawer" aria-label="Close"></button>
       </div>
-      <div class="drawer-body">
+      <div class="drawer-body px-2">
         <div class="nav nav-pills navbar-nav">
-          <a class="nav-link active" aria-current="page" href="/">Home</a>
+          <a class="nav-link <%- locals.currentPath === "/" && "active" %>" aria-current="page" href="/">Home</a>
           <% if (locals.user) { %>
-            <a class="nav-link" href="/blog/add-new">Add Blog</a>
+            <a class="nav-link <%- locals.currentPath === "/blog/add-new" && "active" %>" href="/blog/add-new">Add Blog</a>
           <% } %>
-          <a class="nav-link" href="#">About</a>
-          <!-- <a class="nav-link disabled" aria-disabled="true">Disabled</a> -->
+          <a class="nav-link <%- locals.currentPath === "/about" && "active" %>" href="/about">About</a>
         </div>
         
         <% if (locals.user) { %>
-              <button class="btn-solid theme-primary" type="button" data-bs-toggle="menu" aria-expanded="false">
+              <button class="btn-subtle theme-primary" type="button" data-bs-toggle="menu" aria-expanded="false">
                 <%- user.fullName.split(" ")[0] %>
               </button>
-              <div class="menu">
-                <a class="menu-item" href="#">Profile</a>
+              <div class="menu menu-translucent">
+                <a class="menu-item theme-primary <%- locals.currentPath === "/user/user-profile" && "active disabled-only-function" %>" aria-disabled="true" href="/user/user-profile">Profile</a>
+                 <hr class="menu-divider">
                 <a class="menu-item theme-danger" href="/user/logout">Logout</a>
               </div>
         <% } else { %>
               <% if (locals.currentPath === "/user/signup" || locals.currentPath === "/" || locals.currentPath === "/blog/add-new") { %>
-                    <a role="button" href="/user/signin" class="btn-solid theme-primary">Go to SignIn</a>
+                    <a role="button" href="/user/signin" class="btn-text theme-primary">Go to SignIn</a>
               <% } else if (locals.currentPath === "/user/signin") { %>
-                    <a role="button" href="/user/signup" class="btn-solid theme-primary">Go to SignUp</a>
+                    <a role="button" href="/user/signup" class="btn-text theme-primary">Go to SignUp</a>
               <% } %>
         <% } %>
       </div>

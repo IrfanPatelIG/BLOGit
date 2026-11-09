@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%- locals.user? locals.user.fullName.split(" ")[0] + " - BLOGit" : "User Profile - BLOGit" %></title>
+    <%- include("./partials/head") %>
+</head>
+<body>
+    <%- include("./partials/navBar") %>
+
+    <main class="container">
+        <section class="profile-image">
+            <div class="avatar" style="--bs-avatar-size: 8rem;">
+                <img class="avatar-img" src="<%- locals.user.profileImgURL %>" alt="profile-image">
+            </div>
+        </section>
+        <section class="profile-info">
+            <div>
+                <div class="full-name"></div>
+                <div class="email-address"></div>
+            </div>
+            <button type="button" class="btn-outline theme-primary">Edit</button>
+        </section>
+    </main>
+
+    <%- include("./partials/scripts") %>
+</body>
+</html>

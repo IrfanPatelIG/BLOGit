@@ -1,14 +1,22 @@
 const express = require("express")
 const User = require("../models/user")
+const { restrictToSignedInUsersOnly } = require("../middlewares/authentication")
 
 const router = express.Router()
 
 router.get("/signin", (req, res) => {
-    res.render("signinPage")
+    res.render("signinPage");
 })
 
 router.get("/signup", (req, res) => {
-    res.render("signupPage")
+    res.render("signupPage");
+})
+
+router.get("/user-profile", restrictToSignedInUsersOnly, async (req, res) => {
+    const user = await User.findOne({email: req.user.email});
+    res.render("userProfilePage", {
+        user: user
+    });
 })
 
 

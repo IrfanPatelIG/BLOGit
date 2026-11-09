@@ -46,16 +46,16 @@ userSchema.pre("save", function () {
 userSchema.static("matchUserAndGenerateToken", async function (email, password) {
     const user = await this.findOne({email})
     if (!user)
-        throw new Error("Email is Invalid!");
+        throw new Error("Invalid Credentials!");
     
     const salt = user.salt
-    console.log(user)
+    
     const hashPassword = createHmac("sha256", salt)
         .update(password)
         .digest("hex")
 
     if (hashPassword !== user.password)
-        throw new Error("Inccorect Password!")
+        throw new Error("Invalid Credentials!")
 
     const token = createTokenForUser(user)
     return token

@@ -3,12 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BLOGit - Title</title>
+    <title>BLOGit - About</title>
     <%- include("./partials/head") %>
 </head>
 <body>
     <%- include("./partials/navBar") %>
     
+    <%- include("./partials/infoCard", {
+        title: "About Status",
+        infoDesc: "Comming Soon, thank you for your Patience!"    
+    }) %>
+
     <%- include("./partials/scripts") %>
 </body>
 </html>
