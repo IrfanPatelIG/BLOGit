@@ -6,10 +6,10 @@
     <div class="card-body">
         <figure>
         <blockquote class="blockquote">
-            <p><%- locals?.infoDesc? locals.infoDesc : "Description should be here" %></p>
+            <p><%- locals?.infoDesc? locals.infoDesc : "Description" %></p>
         </blockquote>
         <figcaption class="blockquote-footer">
-            Source <cite title="Source Title">BLOGit Developer - Irfan</cite>
+            Source <cite title="Source Title"><%- locals.infoSource? locals.infoSource : "BLOGit Developer - Irfaan"%></cite>
         </figcaption>
         </figure>
     </div>
