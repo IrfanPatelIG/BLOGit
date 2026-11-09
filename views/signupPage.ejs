@@ -18,8 +18,11 @@
                 <input type="text" name="fullName" class="form-control" id="inputFullName" required>
             </div>
             <div class="form-field mb-3">
-                <label for="profileImgURL" class="form-label badge badge-subtle theme-primary">Profile Image</label>
-                <input type="file" name="profileImgURL" class="form-control" id="profileImgURL">
+                <div>
+                    <label for="profileImgURL" class="form-label badge badge-subtle theme-accent fs-md">Profile Image</label>
+                    <span class="fg-secondary">Only png/jpeg</span>
+                </div>
+                <input type="file" accept="image/png, image/jpeg" name="profileImgURL" class="form-control" id="profileImgURL">
             </div>
             <div class="mb-3">
                 <label for="inputEmail" class="form-label">Email address <span style="color: red;">*</span></label>

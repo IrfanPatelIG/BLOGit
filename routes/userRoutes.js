@@ -1,8 +1,21 @@
 const express = require("express")
 const User = require("../models/user")
 const { restrictToSignedInUsersOnly } = require("../middlewares/authentication")
+const multer = require("multer")
 
 const router = express.Router()
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, '/public/uploads/profileimages')        
+    }, 
+    filename: function (req, file, cb) {
+        const uploadFileName = `${Date.now()}-${file.originalname}`
+        cb(null, uploadFileName)
+    }
+})
+
+const upload = multer({storage: storage})
 
 router.get("/signin", (req, res) => {
     res.render("signinPage");
@@ -20,7 +33,7 @@ router.get("/user-profile", restrictToSignedInUsersOnly, async (req, res) => {
 })
 
 
-router.post("/signup", async (req, res) => {
+router.post("/signup", upload.single("profileImgURL"), async (req, res) => {
     const { fullName, email, password } = req?.body
     try {
         const result = await User.findOne({email: email})
