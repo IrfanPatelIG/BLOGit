@@ -2,15 +2,18 @@ const express = require("express")
 const User = require("../models/user")
 const { restrictToSignedInUsersOnly } = require("../middlewares/authentication")
 const multer = require("multer")
+const Blog = require("../models/blog")
+const Comment = require("../models/comment")
 
 const router = express.Router()
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, '/public/uploads/profileimages')        
+        cb(null, './public/uploads/profileimages')        
     }, 
     filename: function (req, file, cb) {
         const uploadFileName = `${Date.now()}-${file.originalname}`
+        console.log("UploadFIleName USER", uploadFileName)
         cb(null, uploadFileName)
     }
 })
@@ -27,8 +30,15 @@ router.get("/signup", (req, res) => {
 
 router.get("/user-profile", restrictToSignedInUsersOnly, async (req, res) => {
     const user = await User.findOne({email: req.user.email});
+    console.log("Profile User2", user)
+    
+    const blogs = await Blog.find({author: user._id})
+    const comments = await Comment.find({createdBy: user._id})
+    console.log("Blogs:", blogs)
     res.render("userProfilePage", {
-        user: user
+        user: user,
+        blogs: blogs,
+        comments: comments
     });
 })
 
@@ -43,9 +53,11 @@ router.post("/signup", upload.single("profileImgURL"), async (req, res) => {
         await User.create({
             fullName,
             email,
-            password
+            password,
+            profileImgURL: "/uploads/profileimages/" + req?.file.filename
         })
     } catch (err) {
+        console.log(err)
         return res.render("signupPage", {error: err.message})
     }
 

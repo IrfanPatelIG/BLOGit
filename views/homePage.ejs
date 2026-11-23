@@ -32,7 +32,10 @@
             <!-- Populating BLogs Card -->
             <% blogs.forEach(blog => { %>
                 <div class="card shadow-opacity-50 shadow-primary bg-body rounded hover-lift" style="width: 320px; height: 380px;">
-                    <img src="<%- blog.coverImgURL %>" class="card-img-top img-thumbnail" 
+                    <img src="<%- blog.coverImgURL === "/images/defaultCoverImg.png"? 
+                        "/images/defaultCoverImg.png" : blog.coverImgURL.startsWith("/uploads/")? 
+                        blog.coverImgURL : blog.coverImgURL.startsWith("/images/")? 
+                        blog.coverImgURL : "/uploads/" + blog.coverImgURL%>" class="card-img-top img-thumbnail" 
                         alt="Cover Image"
                         style="height: 65%; object-fit: cover; object-position: center;">
                     <div class="card-body">

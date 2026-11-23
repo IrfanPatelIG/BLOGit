@@ -17,8 +17,7 @@ const userSchema = new Schema({
         required: true
     },
     salt: {
-        type: String,
-        required: true
+        type: String
     },
     profileImgURL: {
         type: String,
