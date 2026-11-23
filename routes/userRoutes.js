@@ -13,7 +13,6 @@ const storage = multer.diskStorage({
     }, 
     filename: function (req, file, cb) {
         const uploadFileName = `${Date.now()}-${file.originalname}`
-        console.log("UploadFIleName USER", uploadFileName)
         cb(null, uploadFileName)
     }
 })
@@ -30,13 +29,10 @@ router.get("/signup", (req, res) => {
 
 router.get("/user-profile", restrictToSignedInUsersOnly, async (req, res) => {
     const user = await User.findOne({email: req.user.email});
-    
     const blogs = await Blog.find({author: user._id})
     const comments = await Comment.find({createdBy: user._id})
-
     const commentsOnMyBlogs = await allCommentsOnBlogs(user._id)
 
-    console.log("Commnets on my blogs:", commentsOnMyBlogs);
     res.render("userProfilePage", {
         user,
         blogs,
@@ -45,6 +41,11 @@ router.get("/user-profile", restrictToSignedInUsersOnly, async (req, res) => {
     });
 })
 
+
+router.post("/update-user-profile", restrictToSignedInUsersOnly, async (req, res) => {
+    console.log("Successfully updated User's profile")
+    res.redirect("/")
+})
 
 router.post("/signup", upload.single("profileImgURL"), async (req, res) => {
     const { fullName, email, password } = req?.body

@@ -11,7 +11,6 @@ const storage = multer.diskStorage({
         cb(null, `./public/uploads`)
     },
     filename: function (req, file, cb) {
-        console.log(file)
         const uploadFileName = `${Date.now()}-${file.originalname}`
         cb(null, uploadFileName)
     }
@@ -28,7 +27,7 @@ router.get("/add-new", (req, res) => {
 
 router.post("/add-new", upload.single("coverImg"), async (req, res) => {
     const { title, descriptionBody, coverImg } = req.body
-    console.log("Filename:", req?.file.filename)
+    
     await Blog.create({
         title,
         description: descriptionBody,

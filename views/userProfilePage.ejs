@@ -40,7 +40,8 @@
             <div class="profile-info w-50"
                 style="width: 100%;">
                 <div>
-                    <form>
+                    <form action="/user/update-user-profile" method="POST" enctype="multipart/form-data>"
+                        onsubmit="return confirm('Are you sure you want to Update these values?')">
                         <div class="mb-3">
                             <label for="inputEmail" class="form-label">Email Address</label>
                             <input type="email" class="form-control" id="inputEmail">

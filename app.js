@@ -59,7 +59,6 @@ app.get("/view/blog/:blogId", async (req, res) => {
     const blogId = req?.params.blogId
 
     const blog = await Blog.findOne({_id: blogId}).populate("author")
-    console.log("Blog Img", blog)
     const comments = await Comment.find({blogId: blog.id}).populate("createdBy")
 
     res.render("blogPage", {
