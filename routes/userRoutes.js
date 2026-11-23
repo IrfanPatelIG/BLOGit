@@ -34,9 +34,7 @@ router.get("/user-profile", restrictToSignedInUsersOnly, async (req, res) => {
     const blogs = await Blog.find({author: user._id})
     const comments = await Comment.find({createdBy: user._id})
 
-    const commentsOnMyBlogs = blogs.forEach(blog => {
-        return comments.forEach(commnet => commnet.blogId === blog._id)
-    })
+    const commentsOnMyBlogs = await allCommentsOnBlogs(user._id)
 
     console.log("Commnets on my blogs:", commentsOnMyBlogs);
     res.render("userProfilePage", {
@@ -87,5 +85,13 @@ router.get("/logout", (req, res) => {
     res.clearCookie("token")
     res.redirect("/")
 })
+
+
+// 
+async function allCommentsOnBlogs(userId) {
+    const blogIds = await Blog.find({author: userId}).distinct("_id")
+    const allCommnets = await Comment.find({blogId: {$in: blogIds}});
+    return allCommnets
+}
 
 module.exports = router
