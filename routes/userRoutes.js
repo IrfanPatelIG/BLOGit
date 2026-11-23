@@ -30,15 +30,20 @@ router.get("/signup", (req, res) => {
 
 router.get("/user-profile", restrictToSignedInUsersOnly, async (req, res) => {
     const user = await User.findOne({email: req.user.email});
-    console.log("Profile User2", user)
     
     const blogs = await Blog.find({author: user._id})
     const comments = await Comment.find({createdBy: user._id})
-    console.log("Blogs:", blogs)
+
+    const commentsOnMyBlogs = blogs.forEach(blog => {
+        return comments.forEach(commnet => commnet.blogId === blog._id)
+    })
+
+    console.log("Commnets on my blogs:", commentsOnMyBlogs);
     res.render("userProfilePage", {
-        user: user,
-        blogs: blogs,
-        comments: comments
+        user,
+        blogs,
+        comments,
+        commentsOnMyBlogs
     });
 })
 
