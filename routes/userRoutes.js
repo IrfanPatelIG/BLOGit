@@ -1,11 +1,17 @@
 const express = require("express")
-const { restrictToSignedInUsersOnly } = require("../middlewares/authentication")
 const multer = require("multer")
+const { restrictToSignedInUsersOnly } = require("../middlewares/authentication")
+const { checkUserExists } = require("../middlewares/user")
 
 // DB Models
 const User = require("../models/user")
 const Blog = require("../models/blog")
 const Comment = require("../models/comment")
+
+let user
+let blogs
+let comments
+let commentsOnMyBlogs
 
 const router = express.Router()
 
@@ -31,10 +37,10 @@ router.get("/signup", (req, res) => {
 
 // User Profile Route + Controller
 router.get("/user-profile", restrictToSignedInUsersOnly, async (req, res) => {
-    const user = await User.findOne({email: req.user.email});
-    const blogs = await Blog.find({author: user._id})
-    const comments = await Comment.find({createdBy: user._id})
-    const commentsOnMyBlogs = await allCommentsOnBlogs(user._id)
+    user = await User.findOne({email: req.user.email});
+    blogs = await Blog.find({author: user._id})
+    comments = await Comment.find({createdBy: user._id})
+    commentsOnMyBlogs = await allCommentsOnBlogs(user._id)
 
     res.render("userProfilePage", {
         user,
@@ -45,14 +51,24 @@ router.get("/user-profile", restrictToSignedInUsersOnly, async (req, res) => {
 })
 
 // Update User Profile Route + Controller
-router.post("/update-user-profile", restrictToSignedInUsersOnly, async (req, res) => {
+router.post("/update-user-profile", restrictToSignedInUsersOnly, checkUserExists, upload.single("profileImgURL"), async (req, res) => {
     const {email, fullName, profileImgURL} = req?.body
 
     try {
-        console.log(email, fullName, profileImgURL)
+        console.log(email, fullName, profileImgURL, "Filename:", req?.file?.filename)
+        const result = await User.findOne({email})
+        if (!result) {
+            console.log("User not exists! RESULT")
+            return res.render("userProfilePage", {
+                                user,
+                                blogs,
+                                comments,
+                                commentsOnMyBlogs,
+                                error: "User not exists! RESULT"
+                            });
+        }
     } catch (err) {
         console.log(err)
-        return res.redirect("/user/user-profile")
     }
 
     return res.redirect("/user/user-profile")

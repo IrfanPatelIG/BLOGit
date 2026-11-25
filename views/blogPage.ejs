@@ -68,7 +68,7 @@
                                 <div>
                                     <span class="avatar" style="--bs-avatar-size: 2rem;">
                                         <img class="avatar-img" src="<%= comment.createdBy.profileImgURL %>" alt="avatar img">
-                                        <% if (locals.user._id.toString() === comment.createdBy._id.toString()) { %>
+                                        <% if (locals?.user?._id.toString() === comment?.createdBy._id.toString()) { %>
                                             <span class="avatar-status status-online" role="img" aria-label="Online"></span>
                                         <% } %>
                                     </span>
@@ -76,8 +76,8 @@
                                 </div>
                                 <div class="d-flex align-items-end gap-4">
                                     <small class="h-fit fg-secondary fs-sm"><%= getReadableFullDate(comment.createdAt) %></small>
-                                    <% if (locals.user) { %>
-                                        <% if (user._id.toString() === comment.createdBy._id.toString()) { %>
+                                    <% if (locals?.user) { %>
+                                        <% if (user?._id.toString() === comment.createdBy._id.toString()) { %>
                                             <span class="h-fit delete-icon hover-lift align-self-center" style="cursor: pointer;">
                                                 <a href="/blog/comment/delete/<%= comment._id %>"><img style="width: 25px;" src="/images/trash-white.png" alt="delete icon"></a>
                                             </span>

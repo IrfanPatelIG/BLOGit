@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%- locals.user? locals.user.fullName.split(" ")[0] + " - BLOGit" : "User Profile - BLOGit" %></title>
+    <title><%- locals?.user? locals?.user.fullName.split(" ")[0] + " - BLOGit" : "User Profile - BLOGit" %></title>
     <%- include("./partials/head") %>
 </head>
 <body>
@@ -14,9 +14,9 @@
         <div class="container-left" style="margin-right: 24px;">
             <div class="btn-text theme-info fs-xl ">Stats</div>
             <div class="d-flex flex-column gap-4 align-items-start mt-4">
-                <div class="blogs-total btn-subtle theme-primary">Total Blogs: <%= locals.blogs.length %></div>
-                <div class="blogs-total btn-subtle theme-primary">Total Comments: <%= locals.comments.length %></div>
-                <div class="blogs-total btn-subtle theme-primary">Total Comments on My Blogs: <%= locals.commentsOnMyBlogs.length %></div>
+                <div class="blogs-total btn-subtle theme-primary">Total Blogs: <%= locals?.blogs?.length %></div>
+                <div class="blogs-total btn-subtle theme-primary">Total Comments: <%= locals?.comments?.length %></div>
+                <div class="blogs-total btn-subtle theme-primary">Total Comments on My Blogs: <%= locals?.commentsOnMyBlogs?.length %></div>
             </div>
         </div>
 
@@ -25,14 +25,14 @@
             <div class="profile-image d-flex flex-column justify-content-center align-items-center rounded bg-1"
                 style="width: 100%; padding: 10px 0;">
                 <div class="avatar w-fit" style="--bs-avatar-size: 10rem;">
-                    <img class="avatar-img" src="<%= locals.user.profileImgURL === "/images/defaultProfile.png"? "/images/defaultProfile.png" : "/uploads/profileimages/" + locals.user.profileImgURL%>" alt="profile-image">
+                    <img class="avatar-img" src="<%= locals?.user?.profileImgURL === "/images/defaultProfile.png"? "/images/defaultProfile.png" : "/uploads/profileimages/" + locals?.user?.profileImgURL%>" alt="profile-image">
                 </div>
                 <div class="d-flex align-items-center flex-column mt-3">
                     <div class="fullNameDisplay fs-xl">
-                        <%= locals.user.fullName %>
+                        <%= locals?.user?.fullName %>
                     </div>
                     <div class="emailDisplay fg-emphasis-primary">
-                        <%= locals.user.email %>
+                        <%= locals?.user?.email %>
                     </div>
                 </div>
             </div>
@@ -40,14 +40,14 @@
             <div class="profile-info w-50"
                 style="width: 100%;">
                 <div>
-                    <form action="/user/update-user-profile" method="POST" enctype="multipart/form-data>"
+                    <form action="/user/update-user-profile" method="POST" enctype="multipart/form-data"
                         onsubmit="return confirm('Are you sure you want to Update these values?')">
                         <div class="mb-3">
-                            <label for="inputEmail" class="form-label">Email Address</label>
+                            <label for="inputEmail" class="form-label">Email Address<span style="color: red;">*</span></label>
                             <input type="email" name="email" class="form-control" id="inputEmail">
                         </div>
                         <div class="mb-3">
-                            <label for="inputFullName" class="form-label">Full Name</label>
+                            <label for="inputFullName" class="form-label">Full Name<span style="color: red;">*</span></label>
                             <input type="text" name="fullName" class="form-control" id="inputFullName">
                         </div>
                         <div class="form-field mb-3">
@@ -77,7 +77,7 @@
     
         function checkForm() {
             // For file inputs, .value is non-empty only when a file is selected
-            updateBtn.disabled = !(email.value.trim() && fullName.value.trim() && profileImg.value);
+            updateBtn.disabled = !(email.value.trim() && fullName.value.trim());
         }
 
         clearBtn.addEventListener("click", () => {
