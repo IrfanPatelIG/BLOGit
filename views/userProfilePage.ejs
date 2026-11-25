@@ -12,7 +12,7 @@
     <main class="container d-flex gap-6 justify-content-center flex-wrap-reverse"
         style="margin-top: 10px;">
         <div class="container-left" style="margin-right: 24px;">
-            <div class="btn-text theme-info fs-xl">Stats</div>
+            <div class="btn-text theme-info fs-xl ">Stats</div>
             <div class="d-flex flex-column gap-4 align-items-start mt-4">
                 <div class="blogs-total btn-subtle theme-primary">Total Blogs: <%= locals.blogs.length %></div>
                 <div class="blogs-total btn-subtle theme-primary">Total Comments: <%= locals.comments.length %></div>
@@ -44,20 +44,23 @@
                         onsubmit="return confirm('Are you sure you want to Update these values?')">
                         <div class="mb-3">
                             <label for="inputEmail" class="form-label">Email Address</label>
-                            <input type="email" class="form-control" id="inputEmail">
+                            <input type="email" name="email" class="form-control" id="inputEmail">
                         </div>
                         <div class="mb-3">
                             <label for="inputFullName" class="form-label">Full Name</label>
-                            <input type="text" class="form-control" id="inputFullName">
+                            <input type="text" name="fullName" class="form-control" id="inputFullName">
                         </div>
                         <div class="form-field mb-3">
                             <div>
                                 <label for="profileImgURL" class="form-label badge badge-subtle theme-primary fs-md">Profile Image</label>
                                 <span class="fg-secondary">Only png/jpeg/jpg</span>
                             </div>
-                            <input type="file" accept="image/png, image/jpeg, image/jpg" name="profileImgURL" class="form-control" id="profileImgURL">
+                            <div class="d-flex gap-2">
+                                <input type="file" accept="image/png, image/jpeg, image/jpg" name="profileImgURL" class="form-control" id="profileImgURL">
+                                <div id="clearBtn" class="align-self-center btn-solid theme-primary mt-3">Clear</div>
+                            </div>
                         </div>
-                        <button type="submit" class="btn-solid theme-primary mt-3">Update</button>
+                        <button type="submit" id="updateBtn" class="btn-solid theme-primary mt-3" disabled>Update</button>
                     </form>
                 </div>
             </div>
@@ -65,5 +68,25 @@
     </main>
 
     <%- include("./partials/scripts") %>
+
+    <script>
+        const email = document.getElementById("inputEmail")
+        const fullName = document.getElementById("inputFullName")
+        const profileImg = document.getElementById("profileImgURL")
+        const updateBtn = document.getElementById("updateBtn")
+    
+        function checkForm() {
+            // For file inputs, .value is non-empty only when a file is selected
+            updateBtn.disabled = !(email.value.trim() && fullName.value.trim() && profileImg.value);
+        }
+
+        clearBtn.addEventListener("click", () => {
+            profileImg.value = ""
+        })
+
+        email.addEventListener('input', checkForm);
+        fullName.addEventListener('input', checkForm);
+        profileImg.addEventListener('change', checkForm);
+    </script>
 </body>
 </html>

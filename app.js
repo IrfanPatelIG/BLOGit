@@ -2,9 +2,13 @@ const config = require("./config")
 const express = require("express")
 const path = require("path")
 const mongoose = require("mongoose")
+const { getReadableFullDate } = require("./services/utilities")
+
+// For Authentication service 
 const cookieParser = require("cookie-parser")
 const { checkForAuthToken, restrictToSignedInUsersOnly } = require("./middlewares/authentication")
-const { getReadableFullDate } = require("./services/utilities")
+
+// DB Models
 const Blog = require("./models/blog")
 const Comment = require("./models/comment")
 
@@ -35,6 +39,7 @@ app.use((req, res, next) => {
 })
 
 // Routes
+// Home page route
 app.get("/", async (req, res) => {
     const user = req?.user
     
@@ -48,13 +53,17 @@ app.get("/", async (req, res) => {
     })
 })
 
+// About page route
 app.get("/about", (req, res) => {
     res.render("aboutPage", {user: req?.user})
 })
 
+// All User related routes & Controllers
 app.use("/user", userRouter)
 
+// All Blog related routes & Controllers
 app.use("/blog", restrictToSignedInUsersOnly, blogRouter)
+// View Blog route + controller
 app.get("/view/blog/:blogId", async (req, res) => {
     const blogId = req?.params.blogId
 

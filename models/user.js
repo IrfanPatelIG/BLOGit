@@ -30,6 +30,8 @@ const userSchema = new Schema({
     }
 }, {timestamps: true})
 
+// A kind of middleware for DB saves that interrupt the DB record saving process and perform a pre-save task
+// Here I am Hashing the actual password using a salt(encryption key) before saving a record
 userSchema.pre("save", function () {
     const user = this
 
@@ -42,6 +44,7 @@ userSchema.pre("save", function () {
     this.password = hashedPassword
 })
 
+// Create a method which is specific to this User model that handle's Matching the user with the password and generate a token for JWT-Authentication
 userSchema.static("matchUserAndGenerateToken", async function (email, password) {
     const user = await this.findOne({email})
     if (!user)

@@ -1,22 +1,24 @@
 const express = require("express")
-const User = require("../models/user")
 const { restrictToSignedInUsersOnly } = require("../middlewares/authentication")
 const multer = require("multer")
+
+// DB Models
+const User = require("../models/user")
 const Blog = require("../models/blog")
 const Comment = require("../models/comment")
 
 const router = express.Router()
 
+// Object used to set destination and filename for uploading file
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './public/uploads/profileimages')        
     }, 
     filename: function (req, file, cb) {
-        const uploadFileName = `${Date.now()}-${file.originalname}`
-        cb(null, uploadFileName)
+        cb(null, `${Date.now()}-${file.originalname}`)
     }
 })
-
+// Object used to upload any file at /public/profileimages path
 const upload = multer({storage: storage})
 
 router.get("/signin", (req, res) => {
@@ -27,6 +29,7 @@ router.get("/signup", (req, res) => {
     res.render("signupPage");
 })
 
+// User Profile Route + Controller
 router.get("/user-profile", restrictToSignedInUsersOnly, async (req, res) => {
     const user = await User.findOne({email: req.user.email});
     const blogs = await Blog.find({author: user._id})
@@ -41,12 +44,21 @@ router.get("/user-profile", restrictToSignedInUsersOnly, async (req, res) => {
     });
 })
 
-
+// Update User Profile Route + Controller
 router.post("/update-user-profile", restrictToSignedInUsersOnly, async (req, res) => {
-    console.log("Successfully updated User's profile")
-    res.redirect("/")
+    const {email, fullName, profileImgURL} = req?.body
+
+    try {
+        console.log(email, fullName, profileImgURL)
+    } catch (err) {
+        console.log(err)
+        return res.redirect("/user/user-profile")
+    }
+
+    return res.redirect("/user/user-profile")
 })
 
+// SignUp Route + Controller
 router.post("/signup", upload.single("profileImgURL"), async (req, res) => {
     const { fullName, email, password } = req?.body
     try {
@@ -68,6 +80,7 @@ router.post("/signup", upload.single("profileImgURL"), async (req, res) => {
     return res.redirect("/user/signin")
 })
 
+// SingIn Route + Controller
 router.post("/signin", async (req, res) => {
     const {email, password} = req?.body
     try {
@@ -82,6 +95,7 @@ router.post("/signin", async (req, res) => {
     }
 })
 
+// Logout Route + Controller
 router.get("/logout", (req, res) => {
     res.clearCookie("token")
     res.redirect("/")
