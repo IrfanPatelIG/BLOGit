@@ -27,6 +27,7 @@ const storage = multer.diskStorage({
 // Object used to upload any file at /public/profileimages path
 const upload = multer({storage: storage})
 
+
 router.get("/signin", (req, res) => {
     res.render("signinPage");
 })
@@ -52,10 +53,10 @@ router.get("/user-profile", restrictToSignedInUsersOnly, async (req, res) => {
 
 // Update User Profile Route + Controller
 router.post("/update-user-profile", restrictToSignedInUsersOnly, checkUserExists, upload.single("profileImgURL"), async (req, res) => {
-    const {email, fullName, profileImgURL} = req?.body
+    const {email, fullName} = req?.body
 
     try {
-        console.log(email, fullName, profileImgURL, "Filename:", req?.file?.filename)
+        console.log(email, fullName, "Filename:", req?.file?.filename)
         const result = await User.findOne({email})
         if (!result) {
             console.log("User not exists! RESULT")
@@ -64,9 +65,16 @@ router.post("/update-user-profile", restrictToSignedInUsersOnly, checkUserExists
                                 blogs,
                                 comments,
                                 commentsOnMyBlogs,
-                                error: "User not exists! RESULT"
+                                error: "User not exists!"
                             });
         }
+
+        User.updateOne({email: email}, { $set: 
+            {
+                fullName, 
+                profileImgURL: "/uploads/profileimages/" + req?.file.filename
+            }
+        })
     } catch (err) {
         console.log(err)
     }
