@@ -3,6 +3,7 @@ const express = require("express")
 const path = require("path")
 const mongoose = require("mongoose")
 const { getReadableFullDate } = require("./services/utilities")
+const { checkDBConnectionError } = require("./middlewares/error")
 
 // For Authentication service 
 const cookieParser = require("cookie-parser")
@@ -18,17 +19,29 @@ const blogRouter = require("./routes/blogRoutes")
 
 const app = express()
 const PORT = config.port
+let errorText
 
 // DB Connection
 mongoose.connect(config.mongoUri)
-    .then(() => console.log("MongoDB Connected!"))
-    .catch(() => console.log("Fail to Connect to MongoDB!"))
+    .then(() => {
+        console.log("MongoDB Connected!")
+        // Server
+        app.listen(PORT, () => {
+            console.log(`Server is live: http://localhost:${PORT}`)
+        })
+    })
+    .catch((err) => {
+        errorText = err
+        console.error("Catched Error:", errorText)
+    })
+
 
 // Views config
 app.set("view engine", "ejs")
 app.set("views", path.resolve("./views"))
 
 // Middlewares
+// app.use(checkDBConnectionError(mongoose, errorText))
 app.use(express.static("public"))
 app.use(cookieParser())
 app.use(express.urlencoded({extended: true}))
@@ -79,7 +92,10 @@ app.get("/view/blog/:blogId", async (req, res) => {
 })
 
 
-// Server
-app.listen(PORT, () => {
-    console.log(`Server is live: http://localhost:${PORT}`)
+// Error displaying Route + Controller
+app.get("/error-display/:err", (req, res) => {
+    console.log("Display Error: ", req.params.err)
+    return res.render("displayError", {
+        err: req.params.err
+    })
 })

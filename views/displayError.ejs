@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLOGit - Error</title>
+    <%- include("./partials/head") %>
+</head>
+<body>
+    <%- include("./partials/navBar") %>
+
+    <div class="container mt-12">
+    <div class="card mx-auto w-fit">
+    <div class="card-header">
+        <%- locals?.title? locals.title : "Error" %>
+    </div>
+        <div class="card-body">
+            <figure>
+            <blockquote class="blockquote">
+                <p><%- locals?.err? locals.err.name : "Message" %></p>
+            </blockquote>
+            <figcaption class="blockquote-footer">
+                Source <cite title="Source Title"><%- locals?.infoSource? locals.infoSource : "BLOGit Developer - Irfaan"%></cite>
+            </figcaption>
+            </figure>
+        </div>
+        </div>
+    </div>
+
+    <%- include("./partials/scripts") %>
+</body>
+</html>
