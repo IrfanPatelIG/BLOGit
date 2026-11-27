@@ -38,7 +38,7 @@ router.get("/signup", (req, res) => {
 
 // User Profile Route + Controller
 router.get("/user-profile", restrictToSignedInUsersOnly, async (req, res) => {
-    user = await User.findOne({email: req.user.email});
+    user = await User.findOne({email: req?.user?.email});
     blogs = await Blog.find({author: user._id})
     comments = await Comment.find({createdBy: user._id})
     commentsOnMyBlogs = await allCommentsOnBlogs(user._id)
@@ -53,30 +53,35 @@ router.get("/user-profile", restrictToSignedInUsersOnly, async (req, res) => {
 
 // Update User Profile Route + Controller
 router.post("/update-user-profile", restrictToSignedInUsersOnly, checkUserExists, upload.single("profileImgURL"), async (req, res) => {
-    const {email, fullName} = req?.body
+    const {email, fullName, profileImgURL} = req?.body
 
     try {
-        console.log(email, fullName, "Filename:", req?.file?.filename)
         const result = await User.findOne({email})
-        if (!result) {
-            console.log("User not exists! RESULT")
+        
+        if (result !== null) {
+            console.log("User exists!, use different Email")
             return res.render("userProfilePage", {
                                 user,
                                 blogs,
                                 comments,
                                 commentsOnMyBlogs,
-                                error: "User not exists!"
+                                error: "User exists!, use different Email"
                             });
         }
 
-        User.updateOne({email: email}, { $set: 
-            {
-                fullName, 
-                profileImgURL: "/uploads/profileimages/" + req?.file.filename
-            }
-        })
+        let updatedUser
+        if (profileImgURL) {
+            updatedUser = await User.updateOne({_id: user._id}, { $set: 
+                {
+                    fullName, 
+                    profileImgURL: "/uploads/profileimages/" + req?.file?.filename
+                }
+            })
+        } else {
+            updatedUser = await User.updateOne({_id: user._id}, { $set: {fullName}})
+        }
     } catch (err) {
-        console.log(err)
+        console.log(`Error occured while Updating user with id-${user._id}\n`, err)
     }
 
     return res.redirect("/user/user-profile")
