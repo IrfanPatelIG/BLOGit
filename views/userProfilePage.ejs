@@ -51,7 +51,7 @@
             <div class="profile-image d-flex flex-column justify-content-center align-items-center rounded bg-1"
                 style="width: 100%; padding: 10px 0;">
                 <div class="avatar w-fit" style="--bs-avatar-size: 10rem;">
-                    <img class="avatar-img" src="<%= locals?.user?.profileImgURL.startsWith("/uploads/profileimages")? locals?.user?.profileImgURL : locals?.user?.profileImgURL === "/images/defaultProfile.png"? "/images/defaultProfile.png" : "/uploads/profileimages/" + locals?.user?.profileImgURL %>" alt="profile-image">
+                    <img class="avatar-img shadow shadow-primary" src="<%= locals?.user?.profileImgURL.startsWith("/uploads/profileimages")? locals?.user?.profileImgURL : locals?.user?.profileImgURL === "/images/defaultProfile.png"? "/images/defaultProfile.png" : "/uploads/profileimages/" + locals?.user?.profileImgURL %>" alt="profile-image">
                 </div>
                 <div class="d-flex align-items-center flex-column mt-3">
                     <div class="fullNameDisplay fs-xl">
