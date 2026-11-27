@@ -14,9 +14,35 @@
         <div class="container-left" style="margin-right: 24px;">
             <div class="btn-text theme-info fs-xl ">Stats</div>
             <div class="d-flex flex-column gap-4 align-items-start mt-4">
-                <div class="blogs-total btn-subtle theme-primary">Total Blogs: <%= locals?.blogs?.length %></div>
-                <div class="blogs-total btn-subtle theme-primary">Total Comments: <%= locals?.comments?.length %></div>
-                <div class="blogs-total btn-subtle theme-primary">Total Comments on My Blogs: <%= locals?.commentsOnMyBlogs?.length %></div>
+                <div class="accordion">
+                    <details class="accordion-item accordion accordion-flush" name="accordionExample" open>
+                        <summary class="accordion-header">
+                        Total Blogs
+                        <svg class="accordion-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m2 5 6 6 6-6"/></svg>
+                        </summary>
+                        <div class="accordion-body">
+                            <%= locals?.blogs?.length %>
+                        </div>
+                    </details>
+                    <details class="accordion-item accordion accordion-flush" name="accordionExample">
+                        <summary class="accordion-header">
+                        Total Comments
+                        <svg class="accordion-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m2 5 6 6 6-6"/></svg>
+                        </summary>
+                        <div class="accordion-body">
+                            <%= locals?.comments?.length %>
+                        </div>
+                    </details>
+                    <details class="accordion-item accordion accordion-flush" name="accordionExample">
+                        <summary class="accordion-header">
+                        Total Comments on My Blogs
+                        <svg class="accordion-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m2 5 6 6 6-6"/></svg>
+                        </summary>
+                        <div class="accordion-body">
+                            <%= locals?.commentsOnMyBlogs?.length %>
+                        </div>
+                    </details>
+                </div>
             </div>
         </div>
 
