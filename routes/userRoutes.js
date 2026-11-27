@@ -70,16 +70,12 @@ router.post("/update-user-profile", restrictToSignedInUsersOnly, checkUserExists
         }
 
         let updatedUser
-        if (profileImgURL) {
-            updatedUser = await User.updateOne({_id: user._id}, { $set: 
-                {
-                    fullName, 
-                    profileImgURL: "/uploads/profileimages/" + req?.file?.filename
-                }
-            })
-        } else {
-            updatedUser = await User.updateOne({_id: user._id}, { $set: {fullName}})
-        }
+        updatedUser = await User.updateOne({_id: user._id}, { $set: 
+            {
+                fullName: fullName? fullName : user?.fullName, 
+                profileImgURL: req?.file?.filename? "/uploads/profileimages/" + req?.file?.filename : user.profileImgURL
+            }
+        })
     } catch (err) {
         console.log(`Error occured while Updating user with id-${user._id}\n`, err)
     }
@@ -99,7 +95,7 @@ router.post("/signup", upload.single("profileImgURL"), async (req, res) => {
             fullName,
             email,
             password,
-            profileImgURL: "/uploads/profileimages/" + req?.file.filename
+            profileImgURL: req?.file?.filename && "/uploads/profileimages/" + req?.file?.filename
         })
     } catch (err) {
         console.log(err)

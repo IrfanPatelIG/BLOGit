@@ -34,11 +34,16 @@ router.post("/add-new", upload.single("coverImg"), async (req, res) => {
     await Blog.create({
         title,
         description: descriptionBody,
-        coverImgURL: "/uploads/" + req?.file.filename,
+        coverImgURL: req?.file?.filename && "/uploads/" + req?.file?.filename,
         author: req?.user._id
     })
 
     return res.redirect(`/blog/add-new?title=${encodeURIComponent(title)}`)
+})
+
+// Delete a Blog with blog-id Route + Controller
+router.delete("/delete/:blogId", async (req, res) => {
+    
 })
 
 // Add Comment to DB Route + Controller
@@ -53,7 +58,7 @@ router.post("/comment/:blogId", async (req, res) => {
     return res.redirect(`/view/blog/${req.params.blogId}`)
 })
 
-// Delete a Comment Route + Controller
+// Delete a Comment with comment-id Route + Controller
 router.get("/comment/delete/:commentId", async (req, res) => {
     const commentId = req?.params.commentId
     

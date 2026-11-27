@@ -69,11 +69,11 @@
                     <form action="/user/update-user-profile" method="POST" enctype="multipart/form-data"
                         onsubmit="return confirm('Are you sure you want to Update these values?')">
                         <div class="mb-3">
-                            <label for="inputEmail" class="form-label">Email Address<span style="color: red;">*</span></label>
+                            <label for="inputEmail" class="form-label">Email Address</label>
                             <input type="email" name="email" class="form-control" id="inputEmail">
                         </div>
                         <div class="mb-3">
-                            <label for="inputFullName" class="form-label">Full Name<span style="color: red;">*</span></label>
+                            <label for="inputFullName" class="form-label">Full Name</label>
                             <input type="text" name="fullName" class="form-control" id="inputFullName">
                         </div>
                         <div class="form-field mb-3">
@@ -103,11 +103,12 @@
     
         function checkForm() {
             // For file inputs, .value is non-empty only when a file is selected
-            updateBtn.disabled = !(email.value.trim() && fullName.value.trim());
+            updateBtn.disabled = !(email.value.trim() || fullName.value.trim() || profileImg.value.trim());
         }
 
         clearBtn.addEventListener("click", () => {
             profileImg.value = ""
+            checkForm()
         })
 
         email.addEventListener('input', checkForm);
